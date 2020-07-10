@@ -1,5 +1,5 @@
 {
-  "name": "nuxt",
+  "name": "nuxt-test",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,13 +10,12 @@
     "serve": "nuxt-ts serve"
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^0.4.10",
-    "nuxt": "^2.13.0"
-  },
-  "devDependencies": {
+    "@nuxt/types": "^0.7.9",
     "@nuxt/typescript-build": "^1.0.3",
-    "@nuxtjs/axios": "^5.11.0",
-    "@nuxtjs/proxy": "^2.0.0",
+    "@nuxt/typescript-runtime": "^0.4.10",
+    "@nuxtjs/axios": "^5.9.7",
+    "nuxt": "^2.13.3",
     "nuxt-laravel": "^4.2.7"
-  }
+  },
+  "devDependencies": {}
 }

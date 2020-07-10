@@ -51,7 +51,8 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    'nuxt-laravel'
+    'nuxt-laravel',
+    '@nuxtjs/axios'
   ],
   /*
   ** Build configuration
@@ -59,10 +60,10 @@ export default {
   */
   build: {
   },
-  srcDir: 'resources/nuxt',
   // dockerはこれ必須
   server: {
     port: 3000,
     host: '0.0.0.0'
-  }
+  },
+  srcDir: 'resources/nuxt',
 }
