@@ -7,7 +7,9 @@
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "export": "nuxt-ts export",
-    "serve": "nuxt-ts serve"
+    "serve": "nuxt-ts serve",
+    "lint": "eslint --ext .js,.vue .",
+    "lintfix": "eslint --fix --ext .js,.vue ."
   },
   "dependencies": {
     "@nuxt/types": "^0.7.9",
@@ -17,5 +19,13 @@
     "nuxt": "^2.13.3",
     "nuxt-laravel": "^4.2.7"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-vue": "^6.2.2",
+    "prettier": "^2.0.5"
+  }
 }
