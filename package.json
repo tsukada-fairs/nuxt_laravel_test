@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt-ts",
-    "build": "nuxt-ts build",
+    "dev": "nuxt",
+    "build": "nuxt build",
     "start": "nuxt-ts start",
     "export": "nuxt-ts export",
     "serve": "nuxt-ts serve",

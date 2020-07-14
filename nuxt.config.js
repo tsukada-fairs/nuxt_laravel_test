@@ -1,6 +1,4 @@
-import { Configuration } from '@nuxt/types'
-
-const config: Configuration = {
+export default {
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
@@ -48,8 +46,6 @@ const config: Configuration = {
   ** Nuxt.js dev-modules
   */
   buildModules: [
-    '@nuxt/typescript-build',
-    'nuxt-typed-vuex'
   ],
   /*
   ** Nuxt.js modules
@@ -63,9 +59,6 @@ const config: Configuration = {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
-    transpile: [
-      /typed-vuex/
-    ]
   },
   // dockerはこれ必須
   server: {
@@ -74,5 +67,3 @@ const config: Configuration = {
   },
   srcDir: 'resources/nuxt',
 }
-
-export default config

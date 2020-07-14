@@ -112,8 +112,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script>
 import {
   Hooper,
   Slide,
@@ -121,34 +120,14 @@ import {
   } from 'hooper';
 import 'hooper/dist/hooper.css';
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
-import { longclick } from 'vue-long-click';
+import { longClickDirective } from 'vue-long-click'
 import { required, email } from 'vee-validate/dist/rules';
 import { mapState, mapActions } from "vuex";
+const longclick= longClickDirective({ delay: 400, interval: 50 })
 
-interface InterviewAnswer {
-  [key: string]: any;
-}
-
-interface HooperSetting {
-  mouseDrag: boolean;
-  touchDrag: boolean;
-  wheelControl: boolean;
-  keysControl: boolean;
-}
-
-export type DataType = {
-  page: number
-  currentIndex: number
-  hasNext: boolean
-  contentHeight: string
-  section: string
-  interviewAnswers: InterviewAnswer
-  hooperSettings: HooperSetting
-}
-
-export default Vue.extend({
+export default {
   name: 'App',
-  data(): DataType {
+  data: function() {
     return {
       page: 1,
       currentIndex: 0,
@@ -172,26 +151,25 @@ export default Vue.extend({
     ValidationObserver
   },
   directives: {
-    longclick
+    longclick: longclick
   },
   mounted: function() {
-    console.log(this);
-    let prac: string = 'aaa';
+    console.log(this)
     const prepare = async () => {
       this.section = this.interviewSheet.interview_pages[this.currentIndex].section;
       // if(this.$route.query.page != undefined) {
       //   this.page = this.$route.query.page;
-      //   this.refs().slider.slideTo(this.page - 1);
+      //   this.$refs.slider.slideTo(this.page - 1);
       // }
       // console.log(this.interviewAnswers);
 
-      this.interviewSheet.interview_pages.forEach((interviewPage: any) => {
-        interviewPage.question_items.forEach((questionItem: any) => {
-          questionItem.answer_items.forEach((answerItem :any) => {
+      this.interviewSheet.interview_pages.forEach(interviewPage => {
+        interviewPage.question_items.forEach(questionItem => {
+          questionItem.answer_items.forEach(answerItem => {
             this.setAnswerKey(answerItem, questionItem);
           });
-          questionItem.child_items.forEach((childItem: any) => {
-            childItem.answer_items.forEach((answerItem: any) => {
+          questionItem.child_items.forEach(childItem => {
+            childItem.answer_items.forEach(answerItem => {
               this.setAnswerKey(answerItem, childItem);
             });
           });
@@ -207,28 +185,17 @@ export default Vue.extend({
     prepareProcess();
   },
   computed: {
-    // ...mapState("interviewSheet", {
-    //   interviewSheet: (state: any) => state.data
-    // })
-    interviewSheet: function(): any {
-      // console.log(this.$accessor);
-      return this.$accessor.interviewSheet.data;
-    }
+    ...mapState("interviewSheet", {
+      interviewSheet: state => state.data
+    }),
   },
   methods: {
-    // ...mapActions("interviewSheet", {
-    //   async getInterviewSheet (dispatch: any) {
-    //     await dispatch("getInterviewSheet");
-    //   }
-    // }),
-    getInterviewSheet: async function() {
-      console.log(this.$accessor);
-      await this.$accessor.interviewSheet.getInterviewSheet();
-    },
-    refs(): any {
-      return this.$refs;
-    },
-    setAnswerKey: function(answerItem: any, questionItem: any) {
+    ...mapActions("interviewSheet", {
+      async getInterviewSheet (dispatch) {
+        await dispatch("getInterviewSheet");
+      }
+    }),
+    setAnswerKey: function(answerItem, questionItem) {
       let keyName = '';
       switch(answerItem.type) {
         case 'radio':
@@ -251,7 +218,7 @@ export default Vue.extend({
       }
     },
     prev: function() {
-      if(this.refs().slider.isSliding) {
+      if(this.$refs.slider.isSliding) {
         return;
       }
 
@@ -259,7 +226,7 @@ export default Vue.extend({
 
       if(fullfilled) {
         this.currentIndex--;
-        this.refs().slider.slideTo(this.currentIndex);
+        this.$refs.slider.slideTo(this.currentIndex);
       } else {
         // if (!(this.currentIndex in this.interviews)) {
         //   return;
@@ -271,7 +238,7 @@ export default Vue.extend({
       this.hasNext = true;
     },
     next: function() {
-      if(this.refs().slider.isSliding) {
+      if(this.$refs.slider.isSliding) {
         return;
       }
 
@@ -279,7 +246,7 @@ export default Vue.extend({
 
       if(fullfilled) {
         this.currentIndex++;
-        this.refs().slider.slideTo(this.currentIndex);
+        this.$refs.slider.slideTo(this.currentIndex);
       } else {
         if (!(this.currentIndex in this.interviewSheet.interview_pages)) {
           return;
@@ -293,14 +260,14 @@ export default Vue.extend({
       }
       this.section = this.interviewSheet.interview_pages[this.currentIndex].section;
     },
-    after: function(payload: any) {
+    after: function(payload) {
       if(payload.slideFrom == null) {
         return;
       }
 
 
       // console.log(this.currentIndex);
-      // console.log(this.refs().slider.$children[this.currentIndex + 1].$el.style);
+      // console.log(this.$refs.slider.$children[this.currentIndex + 1].$el.style);
       // this.contentHeight = 535 + 'px';
 
       window.scrollTo(0, 0);
@@ -317,7 +284,7 @@ export default Vue.extend({
     /**
      * ページ制御
      */
-    controlPage: function(nextIndex: any) {
+    controlPage: function(nextIndex) {
       let pageConditions = this.interviewSheet.interview_pages[nextIndex].page_conditions;
       // console.log(pageConditions);
 
@@ -327,15 +294,15 @@ export default Vue.extend({
         let pageCondition = pageConditions[i];
         let text = '';
 
-        let interviewPage = this.interviewSheet.interview_pages.find((interviewPage: any) => {
+        let interviewPage = this.interviewSheet.interview_pages.find(interviewPage => {
           return interviewPage.id == pageCondition.interview_page_id;
         });
 
-        let questionItem = interviewPage.question_items.find((questionItem: any) => {
+        let questionItem = interviewPage.question_items.find(questionItem => {
           if(questionItem.id == pageCondition.question_item_id) {
             return true;
           } else {
-            let childItem = questionItem.child_items.find((childItem: any) => {
+            let childItem = questionItem.child_items.find(childItem => {
               return childItem.id == pageCondition.question_item_id
             });
             if(childItem !== undefined) {
@@ -344,14 +311,14 @@ export default Vue.extend({
           }
         });
 
-        let answerItem = questionItem.answer_items.find((answerItem: any) => {
+        let answerItem = questionItem.answer_items.find(answerItem => {
           return answerItem.id == pageCondition.answer_item_id;
         });
 
         text = answerItem.caption;
 
         let name = 'input_' + this.interviewSheet.id + '_' + pageCondition.question_item_id + '_' + pageCondition.answer_item_id;
-        let partFullfilled = this.refs()[name].some((elm: any) => {
+        let partFullfilled = this.$refs[name].some(elm => {
           return elm.value == text && elm.checked
         });
         
@@ -366,8 +333,8 @@ export default Vue.extend({
     /**
      * input numberの加算
      */
-    stepUpNumber: function(ref: string, answerItem: any) {
-      const input = this.refs()['input_' + ref][0];
+    stepUpNumber: function(ref, answerItem) {
+      const input = this.$refs['input_' + ref][0];
       if(answerItem.num_max > input.value) {
         input.focus();
         input.stepUp(answerItem.num_interval);
@@ -377,8 +344,8 @@ export default Vue.extend({
     /**
      * input numberの減算
      */
-    stepDownNumber: function(ref: string, answerItem: any) {
-      const input = this.refs()['input_' + ref][0];
+    stepDownNumber: function(ref, answerItem) {
+      const input = this.$refs['input_' + ref][0];
       if(answerItem.num_min < input.value) {
         input.focus();
         input.stepDown(answerItem.num_interval);
@@ -386,7 +353,7 @@ export default Vue.extend({
       }
     }
   }
-});
+};
 </script>
 
 <style lang="scss">
