@@ -1,4 +1,6 @@
-export default {
+import { Configuration } from '@nuxt/types'
+
+const config: Configuration = {
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
@@ -34,6 +36,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    { src: '@/plugins/vee-validate'},
+    { src: '@/plugins/vue-long-click'}
   ],
   /*
   ** Auto import components
@@ -45,6 +49,7 @@ export default {
   */
   buildModules: [
     '@nuxt/typescript-build',
+    'nuxt-typed-vuex'
   ],
   /*
   ** Nuxt.js modules
@@ -58,6 +63,9 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+    transpile: [
+      /typed-vuex/
+    ]
   },
   // dockerはこれ必須
   server: {
@@ -66,3 +74,5 @@ export default {
   },
   srcDir: 'resources/nuxt',
 }
+
+export default config

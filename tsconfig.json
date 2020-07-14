@@ -13,8 +13,8 @@
     "sourceMap": true,
     "strict": true,
     "noEmit": true,
-    "experimentalDecorators": true,
-    "baseUrl": "./resources/nuxt",
+    // "experimentalDecorators": true,
+    "baseUrl": "./resource/nuxt",
     "paths": {
       "~/*": [
         "./*"
@@ -26,6 +26,7 @@
     "types": [
       "@types/node",
       "@nuxt/types",
+      "@nuxtjs/axios",
       "nuxt-laravel"
     ]
   },

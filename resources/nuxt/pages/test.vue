@@ -13,7 +13,10 @@ export default Vue.extend({
     }
   },
   mounted: function () {
-    // let text: string = "good morning"
+    let text: string = "good morning"
   },
+  created: function () {
+    console.log(this.$store)
+  }
 })
 </script>
